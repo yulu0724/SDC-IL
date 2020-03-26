@@ -12,7 +12,8 @@ We perform experiments on fine-grained datasets, CIFAR100 and ImageNet-Subset. W
 ## Authors
 Lu Yu, Bartłomiej Twardowski, Xialei Liu, Luis Herranz, Kai Wang, Yongmei Cheng, Shangling Jui, Joost van de Weijer
 
-## Framework
+## Illustration
+![figure](./SDC2.pdf)
 
 ## Datasets
 We evaluate our system in several datasets, including ```CUB-200-2011, Flowers-102, Caltech-101, CIFAR100, ImageNet-Subset(the first 100 classes of full ImageNet)```.
