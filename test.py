@@ -240,7 +240,7 @@ for task_id in range(num_task):
     estimate_all=[]
     
     acc_ave=0
-    for k in range(task_id+1):# [1]: #range(task_id-1,task_id):# #################################################333
+    for k in range(task_id+1):
         if k==0:
             tmp = random_perm[:args.base]
         else:

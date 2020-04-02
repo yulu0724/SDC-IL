@@ -71,16 +71,13 @@ class resnet_cifar(nn.Module):
         self.pretrained = pretrained
         self.in_planes = 16
         self.cut_at_pooling = cut_at_pooling
-
-        # Construct base (pretrained) resnet
-        #pdb.set_trace()
+ 
         self.conv1 = nn.Conv2d(3, 16, kernel_size=3, stride=1, padding=1, bias=False)
         self.bn1 = nn.BatchNorm2d(16)
         self.relu = nn.ReLU(inplace=True)
         self.layer1 = self._make_layer(block, 16, num_blocks[0], stride=1)
         self.layer2 = self._make_layer(block, 32, num_blocks[1], stride=2)
         self.layer3 = self._make_layer(block, 64, num_blocks[2], stride=2)
-        #self.fc = nn.Linear(512, self.num_features)
         self.base_feature = nn.Sequential(self.conv1, self.bn1, self.relu, self.layer1, self.layer2, self.layer3)
         self.base = nn.Sequential()
         self.base.fc = nn.Linear(64, 1000)
@@ -93,19 +90,12 @@ class resnet_cifar(nn.Module):
             self.has_embedding = Embed_dim > 0
             self.num_classes = num_classes
 
-            #out_planes = self.base.fc.in_features
-
             # Append new layers
             if self.has_embedding:
-                #pdb.set_trace()
                 self.base.fc = nn.Linear(64, self.num_features)
-                #self.feat_bn = nn.BatchNorm1d(self.num_features)
                 init.kaiming_normal_(self.base.fc.weight, mode='fan_out')
                 init.constant_(self.base.fc.bias, 0)
-                #init.constant(self.feat_bn.weight, 1)
-                #init.constant(self.feat_bn.bias, 0)
-            #else:
-                # Change the num_features to CNN output channels
+               
             self.num_features = 64
             if self.dropout > 0:
                 self.drop = nn.Dropout(self.dropout)
@@ -115,7 +105,7 @@ class resnet_cifar(nn.Module):
                 init.constant_(self.classifier.bias, 0)
 
         self.Embed = Embedding(64, 1)
-        if self.Embed_dim == 0:  ####lu adds
+        if self.Embed_dim == 0: 
             pass
         else:
             self.Embed = Embedding(64, self.Embed_dim)
@@ -130,10 +120,6 @@ class resnet_cifar(nn.Module):
             self.in_planes = planes * block.expansion
         return nn.Sequential(*layers)
     def forward(self, x):
-        # for name, module in self.base._modules.items():
-        #     if name == 'avgpool':
-        #         break
-        #     x = module(x)
         
         x = self.base_feature(x)
         if self.cut_at_pooling:
@@ -145,7 +131,6 @@ class resnet_cifar(nn.Module):
 
         if self.has_embedding:
             x = self.base.fc(x)
-            #x = self.feat_bn(x)
         if self.norm:
             x = F.normalize(x)
         elif self.has_embedding:
@@ -158,20 +143,14 @@ class resnet_cifar(nn.Module):
         return x_feat, x
     
     def inference(self, x):
-        # for name, module in self.base._modules.items():
-        #     if name == 'avgpool':
-        #         break
-        #     x = module(x)
         x = self.base_feature(x)
         if self.cut_at_pooling:
             return x
-        #pdb.set_trace()
         x = F.avg_pool2d(x, x.size()[2:])
         x = x.view(x.size(0), -1)
 
         if self.has_embedding:
             x = self.base.fc(x)
-            #x = self.feat_bn(x)
         if self.norm:
             x = F.normalize(x)
         elif self.has_embedding:
@@ -185,14 +164,9 @@ class resnet_cifar(nn.Module):
         return x 
 
     def forward_without_norm(self, x):
-        # for name, module in self.base._modules.items():
-        #     if name == 'avgpool':
-        #         break
-        #     x = module(x)
         x = self.base_feature(x)
         if self.cut_at_pooling:
             return x
-        #pdb.set_trace()
         x = F.avg_pool2d(x, x.size()[2:])
         x = x.view(x.size(0), -1)
 
@@ -205,17 +179,11 @@ class resnet_cifar(nn.Module):
         return x
     
     def extract_feat(self, x):
-        # for name, module in self.base._modules.items():
-        #     if name == 'avgpool':
-        #         break
-        #     x = module(x)
         x = self.base_feature(x)
         if self.cut_at_pooling:
             return x
-        #pdb.set_trace()
         x = F.avg_pool2d(x, x.size()[2:])
         x = x.view(x.size(0), -1)
-        #x = F.relu(x)
         return x
 
     def reset_params(self):
@@ -266,14 +234,9 @@ class ResNet(nn.Module):
 
             # Append new layers
             if self.has_embedding:
-                #pdb.set_trace()
                 self.base.fc = nn.Linear(out_planes, self.num_features)
-                #self.feat_bn = nn.BatchNorm1d(self.num_features)
                 init.kaiming_normal_(self.base.fc.weight, mode='fan_out')
                 init.constant_(self.base.fc.bias, 0)
-                #init.constant(self.feat_bn.weight, 1)
-                #init.constant(self.feat_bn.bias, 0)
-            #else:
                 # Change the num_features to CNN output channels
             self.num_features = out_planes
             if self.dropout > 0:
@@ -284,7 +247,7 @@ class ResNet(nn.Module):
                 init.constant_(self.classifier.bias, 0)
 
         self.Embed = Embedding(1024, 1)
-        if self.Embed_dim == 0:  ####lu adds
+        if self.Embed_dim == 0:  
             pass
         else:
             self.Embed = Embedding(1024, self.Embed_dim)
@@ -300,14 +263,12 @@ class ResNet(nn.Module):
 
         if self.cut_at_pooling:
             return x
-        #pdb.set_trace()
         x = F.avg_pool2d(x, x.size()[2:])
         x = x.view(x.size(0), -1)
         x_feat = x
 
         if self.has_embedding:
             x = self.base.fc(x)
-            #x = self.feat_bn(x)
         if self.norm:
             x = F.normalize(x)
         elif self.has_embedding:
@@ -327,13 +288,11 @@ class ResNet(nn.Module):
 
         if self.cut_at_pooling:
             return x
-        #pdb.set_trace()
         x = F.avg_pool2d(x, x.size()[2:])
         x = x.view(x.size(0), -1)
 
         if self.has_embedding:
             x = self.base.fc(x)
-            #x = self.feat_bn(x)
         if self.norm:
             x = F.normalize(x)
         elif self.has_embedding:
@@ -354,7 +313,6 @@ class ResNet(nn.Module):
 
         if self.cut_at_pooling:
             return x
-        #pdb.set_trace()
         x = F.avg_pool2d(x, x.size()[2:])
         x = x.view(x.size(0), -1)
 
@@ -374,10 +332,8 @@ class ResNet(nn.Module):
 
         if self.cut_at_pooling:
             return x
-        #pdb.set_trace()
         x = F.avg_pool2d(x, x.size()[2:])
         x = x.view(x.size(0), -1)
-        #x = F.relu(x)
         return x
 
     def reset_params(self):
@@ -394,7 +350,7 @@ class ResNet(nn.Module):
                 if m.bias is not None:
                     init.constant_(m.bias, 0)
 
-class Embedding(nn.Module):  ###lu adds
+class Embedding(nn.Module): 
     def __init__(self, in_dim, out_dim, dropout=None, normalized=True):
         super(Embedding, self).__init__()
         self.bn = nn.BatchNorm2d(in_dim, eps=0.001)
@@ -422,7 +378,6 @@ def resnet32(**kwargs):
 
 def resnet34(**kwargs):
     return ResNet(34, **kwargs)
-
 
 def resnet50(**kwargs):
     return ResNet(50, **kwargs)
