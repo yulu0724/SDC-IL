@@ -7,9 +7,10 @@ import pdb
 
 
 class TripletLossNoHardMining(nn.Module):
-    def __init__(self, margin=0):
+    def __init__(self, margin=0, num_instances=8):
         super(TripletLossNoHardMining, self).__init__()
         self.margin = margin
+        self.num_instances = num_instances
         self.ranking_loss = nn.MarginRankingLoss(margin=margin)
 
     def forward(self, inputs, targets):
@@ -23,7 +24,7 @@ class TripletLossNoHardMining(nn.Module):
         mask = targets.expand(n, n).eq(targets.expand(n, n).t())
         dist_ap, dist_an = [], []
         for i in range(n):
-            for j in range(7):
+            for j in range(self.num_instances-1):
                 tmp = dist[i][mask[i]]
                 dist_ap.append(tmp[j+1])
                 tmp = dist[i][mask[i] == 0]
