@@ -1,7 +1,7 @@
 # SDC-IL
 Title: Semantic Drift Compensation for Class-Incremental Learning.
 
-The paper will be published at the conference of 2020 Computer Vision and Pattern Recognition (CVPR20). An pre-print version is available.
+The paper will be published at the conference of 2020 Computer Vision and Pattern Recognition (CVPR20). An [pre-print](https://arxiv.org/pdf/2004.00440.pdf) version is available.
 
 ## Abstract
 Class-incremental learning of deep networks sequentially increases the number of classes to be classified. During training, the network has only access to data of one task at a time, where each task contains several classes. In this setting, networks suffer from catastrophic forgetting which refers to the drastic drop in performance on previous tasks. The vast majority of methods have studied this scenario for classification networks, where for each new task the classification layer of the network must be augmented with additional weights to make room for the newly added classes.
