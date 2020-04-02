@@ -10,7 +10,10 @@ Lu Yu, Bartłomiej Twardowski, Xialei Liu, Luis Herranz, Kai Wang, Yongmei Cheng
 All training and test are done in [Pytorch](https://pytorch.org/) framework.
 
 Pytorch vesion: 0.3.0.post4
+
 Python version: 2.7
+
+Code with higher pytorch version will come soon...
 
 ## Illustration
 ![figure](./SDC.png)
