@@ -1,7 +1,7 @@
 # SDC-IL
 Title: Semantic Drift Compensation for Class-Incremental Learning.
 
-The paper will be published at the conference of 2020 Computer Vision and Pattern Recognition (CVPR20). An [pre-print](https://arxiv.org/pdf/2004.00440.pdf) version is available.
+The paper will be published at the conference of 2020 Computer Vision and Pattern Recognition (CVPR20). An [pre-print](https://arxiv.org/pdf/2004.00440.pdf) version is available. [Poster](./6105-poster.pdf) is linked.
 
 ## Authors
 Lu Yu, Bartłomiej Twardowski, Xialei Liu, Luis Herranz, Kai Wang, Yongmei Cheng, Shangling Jui, Joost van de Weijer
