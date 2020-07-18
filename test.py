@@ -170,8 +170,7 @@ if args.data == 'imagenet_sub' or args.data == 'imagenet_full':
     ])
     transform_test = transforms.Compose([
         # transforms.Resize(256),
-        transforms.RandomResizedCrop(224),
-        transforms.RandomHorizontalFlip(),
+        transforms.CenterCrop(224),
         transforms.ToTensor(),
         transforms.Normalize(mean=mean_values,
                              std=std_values)
