@@ -9,7 +9,7 @@ Lu Yu, Bartłomiej Twardowski, Xialei Liu, Luis Herranz, Kai Wang, Yongmei Cheng
 ## Requirments
 All training and test are done in [Pytorch](https://pytorch.org/) framework.
 
-Pytorch vesion: 0.3.0.post4
+Pytorch vesion: 0.4.1
 
 Python version: 2.7
 
