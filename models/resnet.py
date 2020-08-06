@@ -108,7 +108,7 @@ class resnet_cifar(nn.Module):
         if self.Embed_dim == 0: 
             pass
         else:
-            self.Embed = Embedding(64, self.Embed_dim)
+            self.Embed = Embedding(64, 1)
 
         if not self.pretrained:
             self.reset_params()
