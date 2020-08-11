@@ -250,7 +250,7 @@ class ResNet(nn.Module):
         if self.Embed_dim == 0:  
             pass
         else:
-            self.Embed = Embedding(1024, self.Embed_dim)
+            self.Embed = Embedding(1024, 1)
 
         if not self.pretrained:
             self.reset_params()
